@@ -1,0 +1,15 @@
+output "cluster_name" {
+  value       = module.eks.cluster_name
+  description = "EKS cluster name"
+}
+
+output "cluster_endpoint" {
+  value       = module.eks.cluster_endpoint
+  description = "EKS API endpoint"
+}
+
+output "cluster_certificate_authority_data" {
+  value       = module.eks.cluster_certificate_authority_data
+  description = "Base64 encoded CA data"
+  sensitive   = true
+}
