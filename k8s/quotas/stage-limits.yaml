@@ -1,0 +1,14 @@
+﻿apiVersion: v1
+kind: LimitRange
+metadata:
+  name: stage-limits
+  namespace: stage
+spec:
+  limits:
+    - default:
+        cpu: 700m
+        memory: 768Mi
+      defaultRequest:
+        cpu: 300m
+        memory: 512Mi
+      type: Container
