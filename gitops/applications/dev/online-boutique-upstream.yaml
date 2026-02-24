@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/GoogleCloudPlatform/microservices-demo.git
-    targetRevision: main
+    repoURL: https://github.com/<YOUR_GITHUB_ORG_OR_USER>/eks-gitops-microservices-demo.git 
     path: gitops/apps/online-boutique/overlays/dev
+    targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: online-boutique
