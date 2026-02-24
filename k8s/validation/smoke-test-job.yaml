@@ -1,0 +1,84 @@
+# Smoke Test Job — validates the ingress endpoint from inside the cluster.
+#
+# Usage:
+#   # Substitute the actual hostname before applying:
+#   INGRESS_HOST=dev.example.com
+#   sed "s|<INGRESS_HOST>|${INGRESS_HOST}|g" k8s/validation/smoke-test-job.yaml \
+#     | kubectl apply -f -
+#
+#   # Tail the job logs:
+#   kubectl logs -n dev -l job-name=ingress-smoke-test --follow
+#
+#   # Clean up:
+#   kubectl delete job ingress-smoke-test -n dev
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingress-smoke-test
+  namespace: dev
+  labels:
+    app.kubernetes.io/component: validation
+spec:
+  ttlSecondsAfterFinished: 300   # auto-delete 5 min after completion
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: validation
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: smoke-test
+          image: curlimages/curl:8.7.1
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              HOST="${INGRESS_HOST}"
+              echo "=== Ingress Smoke Test ==="
+              echo "Target: https://${HOST}"
+
+              echo ""
+              echo "--- HTTP -> HTTPS redirect ---"
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+                --max-time 10 "http://${HOST}/")
+              echo "HTTP status: ${HTTP_CODE}"
+              [ "${HTTP_CODE}" = "301" ] || [ "${HTTP_CODE}" = "302" ] \
+                && echo "PASS: redirect present" \
+                || { echo "FAIL: expected redirect, got ${HTTP_CODE}"; exit 1; }
+
+              echo ""
+              echo "--- HTTPS response ---"
+              HTTPS_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+                --max-time 10 -L "https://${HOST}/")
+              echo "HTTPS status: ${HTTPS_CODE}"
+              [ "${HTTPS_CODE}" = "200" ] \
+                && echo "PASS: 200 OK" \
+                || { echo "FAIL: expected 200, got ${HTTPS_CODE}"; exit 1; }
+
+              echo ""
+              echo "--- TLS certificate ---"
+              CERT_EXPIRY=$(curl -s -o /dev/null -w "%{ssl_verify_result}" \
+                --max-time 10 "https://${HOST}/")
+              [ "${CERT_EXPIRY}" = "0" ] \
+                && echo "PASS: TLS certificate valid" \
+                || { echo "FAIL: TLS error code ${CERT_EXPIRY}"; exit 1; }
+
+              echo ""
+              echo "=== All checks passed ==="
+          env:
+            - name: INGRESS_HOST
+              value: "<INGRESS_HOST>"   # replaced by sed before kubectl apply
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL

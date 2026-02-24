@@ -1,0 +1,65 @@
+# TLS Ingress Template for AWS ALB + ACM
+#
+# How TLS works on AWS ALB:
+#   - TLS is terminated at the ALB (not at the pod).
+#   - The ALB uses an ACM-managed certificate; no certificate secret is needed
+#     in Kubernetes (unlike nginx-ingress + cert-manager).
+#   - Traffic from the ALB to the pod is plain HTTP on the target port.
+#
+# To provision a certificate:
+#   1. Via Terraform: aws_acm_certificate + aws_acm_certificate_validation
+#   2. Or manually in the AWS Console, then copy the ARN below.
+#
+# Environment-specific values are marked with <PLACEHOLDER>.
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: <APP_NAME>
+  namespace: <NAMESPACE>       # dev | stage | prod
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+    # --- TLS ----------------------------------------------------------------
+    # Comma-separated list of ACM certificate ARNs to attach to the listener.
+    alb.ingress.kubernetes.io/certificate-arn: >-
+      arn:aws:acm:<REGION>:<ACCOUNT_ID>:certificate/<CERT_ID>
+
+    # Expose both HTTP (for redirect) and HTTPS.
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+
+    # Redirect all HTTP traffic to HTTPS at the ALB level (HTTP 301).
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+
+    # TLS policy — TLS 1.2/1.3 only, modern cipher suites.
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+
+    # --- Health check -------------------------------------------------------
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/success-codes: "200-299"
+
+    # --- Optional: WAF ------------------------------------------------------
+    # alb.ingress.kubernetes.io/wafv2-acl-arn: arn:aws:wafv2:...
+
+    # --- Optional: Access logs ----------------------------------------------
+    # alb.ingress.kubernetes.io/load-balancer-attributes: >-
+    #   access_logs.s3.enabled=true,
+    #   access_logs.s3.bucket=<BUCKET>,
+    #   access_logs.s3.prefix=alb/<APP_NAME>
+
+spec:
+  rules:
+    - host: <HOSTNAME>           # e.g. dev.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: <SERVICE_NAME>
+                port:
+                  number: 80
