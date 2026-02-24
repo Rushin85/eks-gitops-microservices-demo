@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Rushin85/eks-gitops-microservices-demo.git 
-    path: gitops/apps/online-boutique/overlays/dev
     targetRevision: main
+    path: gitops/apps/online-boutique/overlays/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: online-boutique
