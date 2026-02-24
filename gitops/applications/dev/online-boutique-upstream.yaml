@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/GoogleCloudPlatform/microservices-demo.git
     targetRevision: main
-    path: kubernetes-manifests
+    path: gitops/apps/online-boutique/overlays/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: online-boutique
