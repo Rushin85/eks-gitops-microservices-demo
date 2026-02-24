@@ -1,11 +1,10 @@
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = {
-    bucket         = "eks-gitops-demo-shared-tfstate-gt-1234"
-    key            = "vpc/terraform.tfstate"
-    region         = var.region
-    dynamodb_table = "eks-gitops-demo-shared-tflock"
-    encrypt        = true
+    bucket  = "eks-gitops-demo-shared-tfstate-gt-1234"
+    key     = "vpc/terraform.tfstate"
+    region  = var.region
+    encrypt = true
   }
 }
 
@@ -30,15 +29,15 @@ module "eks" {
 
   # EKS managed add-ons (safe defaults)
   cluster_addons = {
-    coredns = {}
+    coredns    = {}
     kube-proxy = {}
-    vpc-cni = {}
+    vpc-cni    = {}
   }
 
   eks_managed_node_groups = {
     default = {
-      name            = "${var.name}-ng"
-      instance_types  = var.node_instance_types
+      name           = "${var.name}-ng"
+      instance_types = var.node_instance_types
 
       min_size     = var.min_size
       max_size     = var.max_size
@@ -47,6 +46,9 @@ module "eks" {
   }
 
   tags = {
-    Project = var.name
+    Project     = var.project
+    Environment = var.environment
+    ManagedBy   = "terraform"
+    Owner       = var.owner
   }
 }

@@ -36,3 +36,20 @@ variable "max_size" {
   type    = number
   default = 3
 }
+variable "project" {
+  description = "Project identifier used for naming and tagging."
+  type        = string
+  default     = "eks-gitops-demo"
+}
+
+variable "environment" {
+  description = "Environment name (dev, prod)."
+  type        = string
+  default     = "dev"
+}
+
+variable "owner" {
+  description = "Owner/team responsible for resources."
+  type        = string
+  default     = "devops-team"
+}
