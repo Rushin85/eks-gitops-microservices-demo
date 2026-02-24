@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<YOUR_GITHUB_ORG_OR_USER>/eks-gitops-microservices-demo.git 
+    repoURL: https://github.com/Rushin85/eks-gitops-microservices-demo.git 
     path: gitops/apps/online-boutique/overlays/dev
     targetRevision: main
   destination:
