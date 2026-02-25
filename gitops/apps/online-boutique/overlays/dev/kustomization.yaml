@@ -8,32 +8,32 @@ resources:
 
 images:
   - name: adservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/adservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/adservice
     newTag: v0.10.0
   - name: cartservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/cartservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/cartservice
     newTag: v0.10.0
   - name: checkoutservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/checkoutservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/checkoutservice
     newTag: v0.10.0
   - name: currencyservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/currencyservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/currencyservice
     newTag: v0.10.0
   - name: emailservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/emailservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/emailservice
     newTag: v0.10.0
   - name: frontend
-    newName: docker.io/gcrio/google-samples/microservices-demo/frontend
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/frontend
     newTag: v0.10.0
   - name: paymentservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/paymentservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/paymentservice
     newTag: v0.10.0
   - name: productcatalogservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/productcatalogservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/productcatalogservice
     newTag: v0.10.0
   - name: recommendationservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/recommendationservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/recommendationservice
     newTag: v0.10.0
   - name: shippingservice
-    newName: docker.io/gcrio/google-samples/microservices-demo/shippingservice
+    newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/shippingservice
     newTag: v0.10.0
