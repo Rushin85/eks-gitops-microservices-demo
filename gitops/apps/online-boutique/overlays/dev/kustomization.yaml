@@ -8,32 +8,32 @@ resources:
 
 images:
   - name: adservice
-    newName: ghcr.io/google-samples/microservices-demo/adservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/adservice
     newTag: v0.10.0
   - name: cartservice
-    newName: ghcr.io/google-samples/microservices-demo/cartservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/cartservice
     newTag: v0.10.0
   - name: checkoutservice
-    newName: ghcr.io/google-samples/microservices-demo/checkoutservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/checkoutservice
     newTag: v0.10.0
   - name: currencyservice
-    newName: ghcr.io/google-samples/microservices-demo/currencyservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/currencyservice
     newTag: v0.10.0
   - name: emailservice
-    newName: ghcr.io/google-samples/microservices-demo/emailservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/emailservice
     newTag: v0.10.0
   - name: frontend
-    newName: ghcr.io/google-samples/microservices-demo/frontend
+    newName: docker.io/gcrio/google-samples/microservices-demo/frontend
     newTag: v0.10.0
   - name: paymentservice
-    newName: ghcr.io/google-samples/microservices-demo/paymentservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/paymentservice
     newTag: v0.10.0
   - name: productcatalogservice
-    newName: ghcr.io/google-samples/microservices-demo/productcatalogservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/productcatalogservice
     newTag: v0.10.0
   - name: recommendationservice
-    newName: ghcr.io/google-samples/microservices-demo/recommendationservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/recommendationservice
     newTag: v0.10.0
   - name: shippingservice
-    newName: ghcr.io/google-samples/microservices-demo/shippingservice
+    newName: docker.io/gcrio/google-samples/microservices-demo/shippingservice
     newTag: v0.10.0
