@@ -37,3 +37,7 @@ images:
   - name: shippingservice
     newName: 022074716342.dkr.ecr.us-east-1.amazonaws.com/microservices-demo/shippingservice
     newTag: v0.10.0
+
+replicas:
+  - name: frontend
+    count: 2
