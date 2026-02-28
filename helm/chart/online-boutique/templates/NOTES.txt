@@ -1,0 +1,13 @@
+Online Boutique (Helm)
+
+Release: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+
+Ingress enabled: {{ .Values.ingress.enabled }}
+Host (if enabled): {{ .Values.ingress.host }}
+
+To render manifests (safe):
+  helm template {{ .Release.Name }} . -n {{ .Release.Namespace }} -f values-dev.yaml
+
+To install (DO NOT run before presentation if you want zero changes):
+  helm upgrade --install {{ .Release.Name }} . -n {{ .Release.Namespace }} -f values-dev.yaml

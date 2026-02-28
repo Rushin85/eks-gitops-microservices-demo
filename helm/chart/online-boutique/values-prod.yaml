@@ -1,0 +1,18 @@
+frontend:
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ingress:
+  enabled: false
+  host: prod.online-boutique.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 6

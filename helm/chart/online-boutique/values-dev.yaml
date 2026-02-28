@@ -1,0 +1,11 @@
+frontend:
+  replicaCount: 1
+
+ingress:
+  enabled: false
+  host: dev.online-boutique.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
