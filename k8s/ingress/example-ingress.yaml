@@ -1,12 +1,21 @@
-﻿apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: example-app
   namespace: dev
   annotations:
+    # Use the AWS Load Balancer Controller (replaces the legacy alb annotation).
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    # TLS — ACM certificate ARN for dev.example.com.
+    # Replace the ARN with the value from `terraform output acm_cert_arn_dev`.
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:<REGION>:<ACCOUNT_ID>:certificate/<CERT_ID>
+    # Force HTTPS; redirect plain HTTP on port 80 to HTTPS.
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    # Recommended TLS policy — supports TLS 1.2+ with strong cipher suites.
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
 spec:
   rules:
     - host: dev.example.com

@@ -1,0 +1,47 @@
+# Helm values for the AWS Load Balancer Controller
+# Chart: eks/aws-load-balancer-controller  (https://aws.github.io/eks-charts)
+# Version: ~1.8.x
+#
+# The Argo CD Application (gitops/apps/aws-lb-controller.yaml) references
+# this file as a values overlay on top of the upstream chart defaults.
+
+# Reference the cluster by name so the controller can tag AWS resources.
+# Replace <CLUSTER_NAME> with the actual EKS cluster name.
+clusterName: <CLUSTER_NAME>
+
+# Re-use the IRSA ServiceAccount created in serviceaccount.yaml.
+serviceAccount:
+  create: false
+  name: aws-load-balancer-controller
+
+# Deploy two replicas for HA; the controller uses leader-election by default.
+replicaCount: 2
+
+# Resource footprint — sufficient for a demo cluster.
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+# Keep pods off Windows nodes if the cluster has mixed node groups.
+nodeSelector:
+  kubernetes.io/os: linux
+
+# Pod disruption budget so rolling updates don't take down both replicas.
+podDisruptionBudget:
+  maxUnavailable: 1
+
+# Restrict which namespaces the controller watches (empty = cluster-wide).
+# Useful when you only manage ingress in specific namespaces.
+# watchNamespaceSelector: {}
+
+# Enable shield/WAF integration if your account has those services active.
+enableShield: false
+enableWaf: false
+enableWafv2: false
+
+# Logging
+logLevel: info
